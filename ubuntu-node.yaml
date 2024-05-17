@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      ImageId: ami-0aa7d0e7df2e72802 # Ubuntu Server 22.04 LTS (us-east-1)
+      KeyName: mikew-1pass
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          apt-get update -y
+          apt-get upgrade -y
+          apt-get install -y build-essential curl nginx
+
+          # Create a new user
+          useradd -m -s /bin/bash mikew
+          echo 'mikew ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+          # Setup SSH for the new user
+          mkdir -p /home/mikew/.ssh
+          curl -o /home/mikew/.ssh/authorized_keys https://github.com/vicmike.keys
+          chown -R mikew:mikew /home/mikew/.ssh
+          chmod 700 /home/mikew/.ssh
+          chmod 600 /home/mikew/.ssh/authorized_keys
+
+          # Install NVM
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+          export NVM_DIR="/home/ubuntu/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+          # Install Node.js versions as the new user
+          sudo -i -u ubuntu bash << EOF
+          source $NVM_DIR/nvm.sh
+          nvm install 12.15.0
+          nvm install 14.20.0
+          nvm use 14.20.0
+          npm install -g yarn
+          npm install -g typescript
+          npm install -g pm2
+
+          # Create directories
+          mkdir -p /opt/docker
+          mkdir -p /opt/www
+
+          EOF
+
+
+  InstanceSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH access
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0

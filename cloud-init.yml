@@ -1,0 +1,21 @@
+package_update: true
+packages:
+  - uild-essential curl nginx npm
+
+users:
+  - name: mikew
+    shell: /bin/bash
+    groups: sudo
+ssh_authorized_keys:
+  - https://github.com/vicmike.keys 
+
+services:
+  nginx:
+    enabled: true
+    restart: on-failure
+
+runcmd:
+  - npm install -g nvm
+  - npm install -g typescript
+  - npm install -g pm2
+  - npm install -g yarn

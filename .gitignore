@@ -1,0 +1,54 @@
+gs-tailscale.json
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+
+# Exclude Terraform lock file (optional)
+.terraform.lock.hcl
+
+# Ignore override files as they are usually used to override resources for development
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
+
+# Ignore sensitive variable files (optional)
+*.tfvars
+*.tfvars.json
+
+# Ignore sensitive variable files (user-specific)
+*.auto.tfvars
+
+# Ignore generated plan files
+*.tfplan
+*.tfplan.*
+
+# Ignore backup files created by Terraform
+*.tfbackup
+*.backup
+
+# Ignore .DS_Store (macOS)
+.DS_Store
+
+# Ignore log files
+*.log
+
+# Ignore IDE specific files (e.g., VSCode)
+.vscode/
+.idea/
+
+# Ignore Linux/Mac system files
+*.swp
+*~
+

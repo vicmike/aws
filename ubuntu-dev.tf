@@ -2,17 +2,18 @@ provider "aws" {
   region = "ca-central-1" 
 }
 
-resource "aws_instance" "example" {
+resource "aws_instance" "dev-server" {
   ami           = "ami-0bb0ed6088d3b1bec"
   instance_type = "t2.micro"
   key_name      = "mikew-1pass"
 
-user_data = file("${path.module}/cloud-init.yml")
-
+  user_data = templatefile("${path.module}/cloud-init.yml", {
+    user_name = var.user_name
+  })
   tags = {
-    Name = "dev-template"
+    Name = var.instance_name
+    Project = "Development server"
   }
-
   vpc_security_group_ids = [aws_security_group.ssh-in-global.id]
 }
 

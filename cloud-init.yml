@@ -9,12 +9,12 @@ packages:
   - npm
 
 users:
-  - name: mikew
+  - name: ${user_name}
     shell: /bin/bash
     groups: users, admin, sudo
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh_import_id:
-      - gh:vicmike
+      - gh:vicmike 
 services:
   nginx:
     enabled: true

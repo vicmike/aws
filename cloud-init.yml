@@ -1,14 +1,20 @@
+#cloud-config
+
 package_update: true
+package_upgrade: true
 packages:
-  - uild-essential curl nginx npm
+  - build-essential 
+  - curl 
+  - nginx 
+  - npm
 
 users:
   - name: mikew
     shell: /bin/bash
-    groups: sudo
-ssh_authorized_keys:
-  - https://github.com/vicmike.keys 
-
+    groups: users, admin, sudo
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh_import_id:
+      - gh:vicmike
 services:
   nginx:
     enabled: true

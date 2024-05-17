@@ -21,7 +21,10 @@ services:
     restart: on-failure
 
 runcmd:
-  - npm install -g nvm
+  - mkdir -p /opt/nvm
+  - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | NVM_DIR=/opt/nvm bash
+  - printf '\nexport NVM_DIR="/opt/nvm"\n[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"\n' >> /etc/bash.bashrc
+  - printf '\nexport NVM_DIR="/opt/nvm"\n[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"\n' >> /home/${user_name}/.bashrc  
   - npm install -g typescript
   - npm install -g pm2
   - npm install -g yarn

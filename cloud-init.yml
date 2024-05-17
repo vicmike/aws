@@ -25,3 +25,10 @@ runcmd:
   - npm install -g typescript
   - npm install -g pm2
   - npm install -g yarn
+  - mkdir -p /opt/docker
+  - mkdir -p /opt/www
+  - chgrp -R ${user_name} /opt/docker
+  - chmod -R 776 /opt/docker
+  - chgrp -R ${user_name} /opt/www
+  - chmod -R 776 /opt/www
+

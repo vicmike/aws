@@ -30,7 +30,7 @@ variable "user_name" {
 
 variable "github_user" {
   description = "The Github user to copy ssh keys from"
-  default     = "mikew"
+  default     = "vicmike"
 }
 
 variable "instance_name" {

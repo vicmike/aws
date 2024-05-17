@@ -3,12 +3,13 @@ provider "aws" {
 }
 
 resource "aws_instance" "dev-server" {
-  ami           = "ami-0bb0ed6088d3b1bec"
-  instance_type = "t2.micro"
-  key_name      = "mikew-1pass"
+  ami           = var.ami
+  instance_type = var.instance_type
+  key_name      = var.key_name
 
   user_data = templatefile("${path.module}/cloud-init.yml", {
     user_name = var.user_name
+    github_user = var.github_user
   })
   tags = {
     Name = var.instance_name

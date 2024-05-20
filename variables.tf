@@ -38,3 +38,8 @@ variable "instance_name" {
   default     = "dev-server"
 }
 
+variable "project_id" {
+  description = "Project name for billing purposes"
+  default     = "Development server"
+}
+

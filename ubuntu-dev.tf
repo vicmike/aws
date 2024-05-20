@@ -13,7 +13,7 @@ resource "aws_instance" "dev-server" {
   })
   tags = {
     Name = var.instance_name
-    Project = "Development server"
+    Project = var.project_id
   }
   vpc_security_group_ids = [aws_security_group.ssh-in-global.id]
 }

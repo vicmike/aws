@@ -1,4 +1,5 @@
 gs-tailscale.json
+domains.txt
 
 # Local .terraform directories
 **/.terraform/*

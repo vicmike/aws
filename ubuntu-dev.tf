@@ -1,5 +1,6 @@
 provider "aws" {
   region = "ca-central-1" 
+  profile = var.aws_profile
 }
 
 resource "aws_instance" "dev-server" {
@@ -10,6 +11,7 @@ resource "aws_instance" "dev-server" {
   user_data = templatefile("${path.module}/cloud-init.yml", {
     user_name = var.user_name
     github_user = var.github_user
+    hostname = var.hostname
   })
   tags = {
     Name = var.instance_name

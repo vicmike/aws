@@ -8,6 +8,8 @@ packages:
   - nginx 
   - npm
 
+hostname: ${hostname}
+
 users:
   - name: ${user_name}
     shell: /bin/bash

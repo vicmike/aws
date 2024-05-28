@@ -1,0 +1,55 @@
+assessment.greensteptourism.com {
+    redir https://{host}{uri}
+
+    header {
+        -Server
+    }
+
+    encode gzip
+
+    reverse_proxy / http://tourism_upstream {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+        transport http {
+            versions 1.1
+            header_up Upgrade {>Upgrade}
+            header_up Connection {>Connection}
+        }
+    }
+}
+
+dashboard.greensteptourism.com {
+    redir https://{host}{uri}
+
+    header {
+        -Server
+    }
+
+    encode gzip
+
+    reverse_proxy / http://dashboard_upstream {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote}
+        header_up X-Forwarded-Proto {scheme}
+        transport http {
+            versions 1.1
+            header_up Upgrade {>Upgrade}
+            header_up Connection {>Connection}
+        }
+    }
+}
+
+api.assessment.greensteptourism.com {
+    reverse_proxy http://localhost:4002 {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote}
+    }
+}
+
+backend.greensteptourism.com {
+    reverse_proxy http://localhost:4002 {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote}
+    }
+}

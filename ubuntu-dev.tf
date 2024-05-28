@@ -38,3 +38,50 @@ resource "aws_security_group" "ssh-in-global" {
   }
 }
 
+data "aws_instance" "dev-server" {
+  instance_id = aws_instance.dev-server.id
+}
+
+resource "aws_route53_record" "backend" {
+  zone_id = "Z103080424ATLJF97H0IQ"
+  name    = "backend.gsdev.cc"
+  type    = "A"
+  ttl     = "30"
+  allow_overwrite = true
+  records = [data.aws_instance.dev-server.public_ip]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route53_record" "dashboard" {
+  zone_id = "Z103080424ATLJF97H0IQ"
+  name    = "dashboard.gsdev.cc"
+  type    = "A"
+  ttl     = "30"
+  allow_overwrite = true
+  records = [data.aws_instance.dev-server.public_ip]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route53_record" "assessment" {
+  zone_id = "Z103080424ATLJF97H0IQ"
+  name    = "assessment.gsdev.cc"
+  type    = "A"
+  ttl     = "30"
+  allow_overwrite = true
+  records = [data.aws_instance.dev-server.public_ip]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+output "public_ip" {
+  description = "The public IP of the EC2 instance"
+  value       = data.aws_instance.dev-server.public_ip
+}

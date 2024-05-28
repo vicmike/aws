@@ -1,35 +1,50 @@
-assessment.greensteptourism.com {
+assessment.gsdev.cc {
+    encode gzip
     http://localhost:3002 {
         header_up Host {host}
         header_up X-Forwarded-For {remote}
+        header_up Upgrade {upstream_upgrade}
+        header_up Connection {upstream_connection}
     }
 }
 
-dashboard.greensteptourism.com {
+dashboard.gsdev.cc {
+    encode gzip
     reverse_proxy http://localhost:3004 {
         header_up Host {host}
         header_up X-Forwarded-For {remote}
+        header_up Upgrade {upstream_upgrade}
+        header_up Connection {upstream_connection}
     }
 }
 
-carbon.ecobasesolutions.com {
+carbon.gsdev.cc {
+    encode gzip
     reverse_proxy http://localhost:3002 {
         header_up Host {host}
         header_up X-Forwarded-For {remote}
+        header_up Upgrade {upstream_upgrade}
+        header_up Connection {upstream_connection}
     }
 }
 
 
-api.assessment.greensteptourism.com {
+api.assessment.gsdev.cc {
+    encode gzip
     reverse_proxy http://localhost:4002 {
         header_up Host {host}
         header_up X-Forwarded-For {remote}
+        header_up Upgrade {upstream_upgrade}
+        header_up Connection {upstream_connection}
     }
 }
 
-backend.greensteptourism.com {
+backend.gsdev.cc {
+    encode gzip
     reverse_proxy http://localhost:4002 {
         header_up Host {host}
         header_up X-Forwarded-For {remote}
+        header_up Upgrade {upstream_upgrade}
+        header_up Connection {upstream_connection}
     }
 }

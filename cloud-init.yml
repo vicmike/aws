@@ -19,8 +19,12 @@ users:
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     ssh_import_id:
       - gh:${github_user} 
+
 services:
   nginx:
+    enabled: true
+    restart: on-failure
+  redis:
     enabled: true
     restart: on-failure
 

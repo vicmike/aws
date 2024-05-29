@@ -81,6 +81,32 @@ resource "aws_route53_record" "assessment" {
   }
 }
 
+resource "aws_route53_record" "carbon" {
+  zone_id = "Z103080424ATLJF97H0IQ"
+  name    = "carbon.gsdev.cc"
+  type    = "A"
+  ttl     = "30"
+  allow_overwrite = true
+  records = [data.aws_instance.dev-server.public_ip]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_route53_record" "assessment-api" {
+  zone_id = "Z103080424ATLJF97H0IQ"
+  name    = "api.assessment.gsdev.cc"
+  type    = "A"
+  ttl     = "30"
+  allow_overwrite = true
+  records = [data.aws_instance.dev-server.public_ip]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 output "public_ip" {
   description = "The public IP of the EC2 instance"
   value       = data.aws_instance.dev-server.public_ip

@@ -1,6 +1,16 @@
-assessment.gsdev.cc {
+{
+    # Global options block
+    email support@greenstep.ca
+    
+
+    {$GSDOMAIN=gsdev.cc}
+    {$ECODOMAIN=gsdev.cc}
+}
+
+assessment.{$GSDOMAIN} {
+    # old upstream  http://tourism_upstream / localhost:3003
     encode gzip
-    http://localhost:3002 {
+    http://localhost:3003 {
         header_up Host {host}
         header_up X-Forwarded-For {remote}
         header_up Upgrade {upstream_upgrade}
@@ -8,7 +18,8 @@ assessment.gsdev.cc {
     }
 }
 
-dashboard.gsdev.cc {
+dashboard.{$GSDOMAIN} {
+    # old upstream http://dashboard_upstream / localhost:3004
     encode gzip
     reverse_proxy http://localhost:3004 {
         header_up Host {host}
@@ -18,7 +29,28 @@ dashboard.gsdev.cc {
     }
 }
 
-carbon.gsdev.cc {
+api.assessment.{$GSDOMAIN} {
+    encode gzip
+    reverse_proxy http://localhost:4002 {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote}
+        header_up Upgrade {upstream_upgrade}
+        header_up Connection {upstream_connection}
+    }
+}
+
+backend.{$GSDOMAIN} {
+    encode gzip
+    reverse_proxy http://localhost:4002 {
+        header_up Host {host}
+        header_up X-Forwarded-For {remote}
+        header_up Upgrade {upstream_upgrade}
+        header_up Connection {upstream_connection}
+    }
+}
+
+carbon.{$ECODOMAIN} {
+    # old upstream http://nextjs_upstream / localhost:3002
     encode gzip
     reverse_proxy http://localhost:3002 {
         header_up Host {host}
@@ -28,20 +60,9 @@ carbon.gsdev.cc {
     }
 }
 
-
-api.assessment.gsdev.cc {
+graphql.api.{$ECODOMAIN} {
     encode gzip
-    reverse_proxy http://localhost:4002 {
-        header_up Host {host}
-        header_up X-Forwarded-For {remote}
-        header_up Upgrade {upstream_upgrade}
-        header_up Connection {upstream_connection}
-    }
-}
-
-backend.gsdev.cc {
-    encode gzip
-    reverse_proxy http://localhost:4002 {
+    reverse_proxy http://localhost:4000 {
         header_up Host {host}
         header_up X-Forwarded-For {remote}
         header_up Upgrade {upstream_upgrade}

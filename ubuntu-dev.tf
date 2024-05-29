@@ -21,11 +21,25 @@ resource "aws_instance" "dev-server" {
 }
 
 resource "aws_security_group" "ssh-in-global" {
-  name_prefix = "ssh-"
+  name_prefix = "dev-server-"
 
   ingress {
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

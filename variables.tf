@@ -11,7 +11,7 @@ variable "aws_profile" {
 
 variable "instance_type" {
   description = "Instance type to deploy"
-  default     = "t2.micro"
+  default     = "t3a.medium"
   # Free tier eligable arm instance
   #default     = "t4g.nano"
 }

@@ -1,16 +1,14 @@
 {
     # Global options block
     email support@greenstep.ca
-    
-
     {$GSDOMAIN=gsdev.cc}
     {$ECODOMAIN=gsdev.cc}
 }
 
-assessment.{$GSDOMAIN} {
+assessment.gsdev.cc {
     # old upstream  http://tourism_upstream / localhost:3003
     encode gzip
-    http://localhost:3003 {
+    reverse_proxy http://localhost:3003 {
         header_up Host {host}
         header_up X-Forwarded-For {remote}
         header_up Upgrade {upstream_upgrade}
@@ -18,7 +16,7 @@ assessment.{$GSDOMAIN} {
     }
 }
 
-dashboard.{$GSDOMAIN} {
+dashboard.gsdev.cc {
     # old upstream http://dashboard_upstream / localhost:3004
     encode gzip
     reverse_proxy http://localhost:3004 {
@@ -29,7 +27,7 @@ dashboard.{$GSDOMAIN} {
     }
 }
 
-api.assessment.{$GSDOMAIN} {
+api.assessment.gsdev.cc {
     encode gzip
     reverse_proxy http://localhost:4002 {
         header_up Host {host}
@@ -39,7 +37,7 @@ api.assessment.{$GSDOMAIN} {
     }
 }
 
-backend.{$GSDOMAIN} {
+backend.gsdev.cc {
     encode gzip
     reverse_proxy http://localhost:4002 {
         header_up Host {host}
@@ -49,7 +47,7 @@ backend.{$GSDOMAIN} {
     }
 }
 
-carbon.{$ECODOMAIN} {
+carbon.gsdev.cc {
     # old upstream http://nextjs_upstream / localhost:3002
     encode gzip
     reverse_proxy http://localhost:3002 {
@@ -60,7 +58,7 @@ carbon.{$ECODOMAIN} {
     }
 }
 
-graphql.api.{$ECODOMAIN} {
+graphql.api.gsdev.cc {
     encode gzip
     reverse_proxy http://localhost:4000 {
         header_up Host {host}

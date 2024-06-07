@@ -70,13 +70,11 @@ apt:
         =e4lF
         -----END PGP PUBLIC KEY BLOCK-----
 
-
 package_update: true
 package_upgrade: true
 packages:
   - build-essential 
   - curl 
-  - nginx 
   - npm
   - redis
   - caddy
@@ -92,18 +90,19 @@ users:
       - gh:${github_user} 
 
 services:
-  nginx:
-    enabled: true
-    restart: on-failure
   redis:
     enabled: true
     restart: on-failure
 
 runcmd:
   - mkdir -p /opt/nvm
-  - wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | NVM_DIR=/opt/nvm bash
-  - printf '\nexport NVM_DIR="/opt/nvm"\n[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"\n' >> /etc/bash.bashrc
-  - printf '\nexport NVM_DIR="/opt/nvm"\n[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"\n' >> /home/${user_name}/.bashrc  
+  - chown ${user_name}:${user_name} /opt/nvm
+  - chgrp -R users /opt/nvm
+  - su - ${user_name} -c "wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash"
+  - su - ${user_name} -c "echo 'export NVM_DIR=\"/opt/nvm\"' >> ~/.bashrc"
+  - su - ${user_name} -c "echo '[ -s \"\$NVM_DIR/nvm.sh\" ] && . \"\$NVM_DIR/nvm.sh\"' >> ~/.bashrc"
+  - echo 'export NVM_DIR="/opt/nvm"' >> /etc/skel/.bashrc
+  - echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"' >> /etc/skel/.bashrc
   - npm install -g typescript
   - npm install -g pm2
   - npm install -g yarn
@@ -113,4 +112,3 @@ runcmd:
   - chmod -R 776 /opt/docker
   - chgrp -R ${user_name} /opt/www
   - chmod -R 776 /opt/www
-

@@ -93,8 +93,12 @@ services:
   redis:
     enabled: true
     restart: on-failure
+  caddy:
+    enabled: true
+    restart: on-failure
 
 runcmd:
+
   - mkdir -p /opt/nvm
   - chown ${user_name}:${user_name} /opt/nvm
   - chgrp -R users /opt/nvm
